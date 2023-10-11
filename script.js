@@ -1,5 +1,6 @@
 let wines = [];
 
+// Fetch wines from JSON file
 fetch('wines.json')
     .then(response => {
         if (!response.ok) {
@@ -9,6 +10,7 @@ fetch('wines.json')
     })
     .then(data => {
         wines = data;
+        console.log('Wines data loaded:', wines); // Debug: check loaded data
     })
     .catch(error => {
         console.error('Fetching error:', error);
@@ -25,37 +27,30 @@ function search() {
     }
 
     const results = searchWines(query);
+    console.log('Search results:', results); // Debug: check search results
     
     if (results.length === 0) {
         resultsDiv.innerHTML = "<p>No results found.</p>";
         return;
     }
     
-    results.forEach(({wine, matchType}) => {
+    results.forEach(({item}) => { // Note that Fuse.js uses "item" to refer to the matched object
         const resultDiv = document.createElement('div');
-        resultDiv.innerHTML = `<p>${wine.name} <em>(${matchType})</em></p>`;
+        resultDiv.innerHTML = `<p>${item.name}</p>`;
         resultsDiv.appendChild(resultDiv);
     });
 }
 
 function searchWines(query) {
-    const queryTokens = query.split(/\s+/);
-    const results = [];
-
-    wines.forEach(wine => {
-        if (wine.name.toLowerCase().includes(query)) {
-            results.push({wine, matchType: 'exact match'});
-        } else {
-            const wineTokens = wine.name.toLowerCase().split(/\s+/);
-            if (queryTokens.every(token => wineTokens.includes(token))) {
-                results.push({wine, matchType: 'token match'});
-            } else if (queryTokens.some(token => 
-                       wine.name.toLowerCase().split(/\W+/).includes(token) && 
-                       !/^\d+$/.test(token))) {
-                results.push({wine, matchType: 'partial match'});
-            }
-        }
-    });
-
-    return results;
+    // Fuse.js options
+    const options = {
+        threshold: 0.4, 
+        keys: ['name']
+    };
+    
+    // Initialize Fuse with the wines data and options
+    const fuse = new Fuse(wines, options);
+    
+    // Perform the search and return the results
+    return fuse.search(query);
 }
