@@ -8,6 +8,13 @@ fetch('wines.json')
     })
     .catch(error => console.error('Fetching error:', error));
 
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevents the default form submission
+        search();  // Your function that performs the search
+    });
+});
+
 function search() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const resultsDiv = document.getElementById('results');
