@@ -51,15 +51,12 @@ function search() {
 }
 
 function searchWines(query) {
-    const queryTokens = query.split(/\s+/);
     const results = [];
 
     // Exact Match
     wines.forEach(wine => {
         const wineLower = wine.name.toLowerCase();
-        const wineTokens = wineLower.split(/\s+/);
-        
-        if (query === wineLower || wineTokens.includes(query)) {
+        if (query === wineLower) {
             results.push({wine, matchType: 'exact match'});
         }
     });
@@ -67,6 +64,7 @@ function searchWines(query) {
     // Token Match
     wines.forEach(wine => {
         const wineTokens = wine.name.toLowerCase().split(/\s+/);
+        const queryTokens = query.split(/\s+/);
 
         if (queryTokens.every(token => wineTokens.includes(token))) {
             if (!results.find(result => result.wine.name === wine.name)) {
@@ -75,12 +73,11 @@ function searchWines(query) {
         }
     });
 
-    // Fuzzy Match
+    // Fuzzy Match using Jaro-Winkler similarity
     wines.forEach(wine => {
         const wineLower = wine.name.toLowerCase();
-        
-        // Using String Similarity - Simplistic approach for JS
-        const similarity = getSimilarity(query, wineLower);
+
+        const similarity = stringSimilarity.compareTwoStrings(query, wineLower);
         if (similarity > 0.8) {  // Adjust similarity threshold as needed
             if (!results.find(result => result.wine.name === wine.name)) {
                 results.push({wine, matchType: 'fuzzy match'});
@@ -91,22 +88,3 @@ function searchWines(query) {
     return results;
 }
 
-// A simplistic string similarity function
-function getSimilarity(str1, str2) {
-    let longer = str1;
-    let shorter = str2;
-    if (str1.length < str2.length) {
-        longer = str2;
-        shorter = str1;
-    }
-    const longerLength = longer.length;
-    if (longerLength === 0) {
-        return 1.0;
-    }
-    return (longerLength - getEditDistance(longer, shorter)) / parseFloat(longerLength);
-}
-
-// A function to get string edit distance using Levenshtein Distance Algorithm
-function getEditDistance(a, b) {
-    //... implementation here ...
-}
