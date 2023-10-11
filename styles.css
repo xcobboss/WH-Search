@@ -12,7 +12,7 @@ body {
 }
 
 #logo {
-    max-width: 100%;  /* Ensures the logo is not too wide for its container */
+    max-width: 50%;  /* Ensures the logo is not too wide for its container */
     height: auto;  /* Maintains aspect ratio */
     display: block;  /* Allows margin auto to center the logo */
     margin: 0 auto 20px auto;  /* Adds margin to the bottom of the logo and centers it */
