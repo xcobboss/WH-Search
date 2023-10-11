@@ -42,17 +42,14 @@ function search() {
 }
 
 function searchWines(query) {
-    // Fuse.js options
     const options = {
-        threshold: 0.4,  // Tweak the threshold to optimize results.
-        location: 0,
-        distance: 100,
+        threshold: 0.2,  // Adjusted down from 0.4 to require a closer match.
+        distance: 50,  // Lowered from 100, making matches need to be closer to the query string.
+        location: 0,  
         keys: ['name']
     };
     
-    // Initialize Fuse with the wines data and options
     const fuse = new Fuse(wines, options);
     
-    // Perform the search and return the results
     return fuse.search(query);
 }
