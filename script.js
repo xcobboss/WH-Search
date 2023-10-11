@@ -20,11 +20,13 @@ document.getElementById('searchInput').addEventListener('input', function() {
     document.querySelector('button').disabled = !query.trim();
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    document.querySelector('.mobile-search-icon').addEventListener('click', function() {
-        document.getElementById('searchForm').submit();
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('.mobile-search-icon').addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent any default actions
+        search();  // Directly call your search function
     });
 });
+
 
 function search() {
     const query = document.getElementById('searchInput').value.toLowerCase();
