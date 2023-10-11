@@ -12,13 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initializeSearch(wines) {
         const fuseOptions = {
-            keys: ['name'],
-            includeScore: true,
-            threshold: 0.2,
-            location: 0,
-            distance: 100,
-            limit: 5  // Limit results to the best 5 matches.
+        keys: ['name'],
+        includeScore: true,
+        threshold: 0.2,  // Adjusted threshold to be more strict
+        location: 0,
+        distance: 100,
+        minMatchCharLength: 3,  // Minimum number of characters that should match
+        limit: 5  // Limit results to the best 5 matches.
         };
+
         
         const fuse = new Fuse(wines, fuseOptions);
 
