@@ -1,79 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('searchForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevents the default form submission
-        search();  // Function that performs the search
-    });
+    let wines = [];
 
-    document.getElementById('searchInput').addEventListener('input', function() {
-        const query = document.getElementById('searchInput').value;
-        document.querySelector('button').disabled = !query.trim();
-    });
-
-    document.querySelector('.mobile-search-icon').addEventListener('click', function() {
-        document.getElementById('searchForm').submit();
-    });
-
-    // Fetch wines from JSON file and initialize Fuse
+    // Fetch wines from JSON file
     fetch('wines.json')
         .then(response => response.json())
         .then(data => {
             wines = data;
-            initializeFuse(wines);
+            initializeSearch(wines);
         })
         .catch(error => console.error('Fetching error:', error));
-});
 
-let wines = [];
-let fuse;
+    function initializeSearch(wines) {
+        const fuseOptions = {
+            keys: ['name'],
+            includeScore: true,
+            threshold: 0.3,  // Adjust the threshold value according to your requirement
+            ignoreLocation: true,
+            isCaseSensitive: false,
+        };
 
-function initializeFuse(winesData) {
-    const fuseOptions = {
-        keys: ['name'],
-        includeScore: true,
-        threshold: 0.3,  // Lower means stricter matching. Adjust as needed.
-        location: 0,  // Indicates approximately where in the text the pattern is expected to be found
-        distance: 100  // Determines how close the match must be to the fuzzy location. Higher means farther.
-    };
-    fuse = new Fuse(winesData, fuseOptions);
-}
+        const fuse = new Fuse(wines, fuseOptions);
 
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault(); 
+            search();
+        });
 
-function search() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const resultsDiv = document.getElementById('results');
-    resultsDiv.innerHTML = ""; 
+        document.getElementById('searchInput').addEventListener('input', function () {
+            const query = document.getElementById('searchInput').value;
+            document.querySelector('button').disabled = !query.trim();
+        });
 
-    if (!query) {
-        resultsDiv.innerHTML = "<p>Please enter a search term.</p>";
-        return;
-    }
+        document.querySelector('.mobile-search-icon').addEventListener('click', function () {
+            document.getElementById('searchForm').submit();
+        });
 
-    const results = searchWines(query);
+        function search() {
+            const query = document.getElementById('searchInput').value;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ""; 
 
-    if (results.length === 0) {
-        resultsDiv.innerHTML = "<p>No results found.</p>";
-        return;
-    }
-    
-    results.forEach(({wine, matchType}) => {
-        const resultDiv = document.createElement('div');
-        resultDiv.innerHTML = `<p>${wine.name} <em>(${matchType})</em></p>`;
-        resultsDiv.appendChild(resultDiv);
-    });
-}
+            if (!query) {
+                resultsDiv.innerHTML = "<p>Please enter a search term.</p>";
+                return;
+            }
 
-function searchWines(query) {
-    const results = [];
-    const fuseResults = fuse.search(query);
+            const results = fuse.search(query);
 
-    fuseResults.forEach(result => {
-        if (result.score <= 0.4) { 
-            results.push({
-                wine: result.item, 
-                matchType: result.score === 0 ? 'exact match' : 'fuzzy match'
+            if (results.length === 0) {
+                resultsDiv.innerHTML = "<p>No results found.</p>";
+                return;
+            }
+            
+            results.forEach(({ item, score }) => {
+                const resultDiv = document.createElement('div');
+                resultDiv.innerHTML = `<p>${item.name} <em>(score: ${score.toFixed(2)})</em></p>`;
+                resultsDiv.appendChild(resultDiv);
             });
         }
-    });
-
-    return results;
-}
+    }
+});
