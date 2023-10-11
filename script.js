@@ -2,80 +2,93 @@ let wines = [];
 
 // Fetch wines from JSON file
 fetch('wines.json')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
         wines = data;
-        console.log('Wines data loaded:', wines); // Debug: check loaded data
     })
-    .catch(error => {
-        console.error('Fetching error:', error);
-    });
+    .catch(error => console.error('Fetching error:', error));
 
 function search() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const resultsDiv = document.getElementById('results');
     resultsDiv.innerHTML = ""; 
-    
+
     if (!query) {
         resultsDiv.innerHTML = "<p>Please enter a search term.</p>";
         return;
     }
 
     const results = searchWines(query);
-    console.log('Search results:', results); // Debug: check search results
-    
+
     if (results.length === 0) {
         resultsDiv.innerHTML = "<p>No results found.</p>";
         return;
     }
     
-    results.forEach(({item, score}) => {
+    results.forEach(({wine, matchType}) => {
         const resultDiv = document.createElement('div');
-        resultDiv.innerHTML = `<p>${item.name} (Score: ${score.toFixed(2)})</p>`;
+        resultDiv.innerHTML = `<p>${wine.name} <em>(${matchType})</em></p>`;
         resultsDiv.appendChild(resultDiv);
     });
 }
 
 function searchWines(query) {
-    const exactMatches = [];
-    const tokenMatches = [];
-    const fuzzyOptions = {
-        includeScore: true,
-        threshold: 0.4, 
-        distance: 100, 
-        keys: ['name']
-    };
-    const fuse = new Fuse(wines, fuzzyOptions);
+    const queryTokens = query.split(/\s+/);
+    const results = [];
 
-    // 1. Exact match
+    // Exact Match
     wines.forEach(wine => {
-        if(wine.name.toLowerCase().includes(query)) {
-            exactMatches.push({ item: wine, score: 0 });
+        const wineLower = wine.name.toLowerCase();
+        const wineTokens = wineLower.split(/\s+/);
+        
+        if (query === wineLower || wineTokens.includes(query)) {
+            results.push({wine, matchType: 'exact match'});
         }
     });
-
-    if (exactMatches.length > 0) {
-        return exactMatches;
-    }
     
-    // 2. Tokenized search
-    const queryTokens = query.split(/\s+/);
+    // Token Match
     wines.forEach(wine => {
         const wineTokens = wine.name.toLowerCase().split(/\s+/);
-        if(queryTokens.some(token => wineTokens.includes(token))) {
-            tokenMatches.push({ item: wine, score: 0.2 });
+
+        if (queryTokens.every(token => wineTokens.includes(token))) {
+            if (!results.find(result => result.wine.name === wine.name)) {
+                results.push({wine, matchType: 'token match'});
+            }
         }
     });
 
-    if (tokenMatches.length > 0) {
-        return tokenMatches;
+    // Fuzzy Match
+    wines.forEach(wine => {
+        const wineLower = wine.name.toLowerCase();
+        
+        // Using String Similarity - Simplistic approach for JS
+        const similarity = getSimilarity(query, wineLower);
+        if (similarity > 0.8) {  // Adjust similarity threshold as needed
+            if (!results.find(result => result.wine.name === wine.name)) {
+                results.push({wine, matchType: 'fuzzy match'});
+            }
+        }
+    });
+
+    return results;
+}
+
+// A simplistic string similarity function
+function getSimilarity(str1, str2) {
+    let longer = str1;
+    let shorter = str2;
+    if (str1.length < str2.length) {
+        longer = str2;
+        shorter = str1;
     }
-    
-    // 3. Fuzzy search
-    return fuse.search(query);
+    const longerLength = longer.length;
+    if (longerLength === 0) {
+        return 1.0;
+    }
+    return (longerLength - getEditDistance(longer, shorter)) / parseFloat(longerLength);
+}
+
+// A function to get string edit distance using Levenshtein Distance Algorithm
+function getEditDistance(a, b) {
+    //... implementation here ...
 }
