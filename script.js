@@ -12,60 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function initializeSearch(wines) {
         const fuseOptions = {
-        keys: ['name'],
-        includeScore: true,
-        threshold: 0.2,  // Adjusted threshold to be more strict
-        location: 0,
-        distance: 100,
-        minMatchCharLength: 3,  // Minimum number of characters that should match
-        limit: 5  // Limit results to the best 5 matches.
+            keys: ['name'],
+            includeScore: true,
+            threshold: 0.2, 
+            location: 0,
+            distance: 100,
+            minMatchCharLength: 3,
+            limit: 5 
         };
 
-        
         const fuse = new Fuse(wines, fuseOptions);
 
         document.getElementById('searchForm').addEventListener('submit', function (event) {
-            event.preventDefault(); 
-            search();
-        });
-
-        document.getElementById('searchInput').addEventListener('input', function () {
-            const query = document.getElementById('searchInput').value;
-            document.querySelector('button').disabled = !query.trim();
-        });
-
-        document.querySelector('.mobile-search-icon').addEventListener('click', function () {
-            document.getElementById('searchForm').submit();
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-    let wines = [];
-
-    // Fetch wines from JSON file
-    fetch('wines.json')
-        .then(response => response.json())
-        .then(data => {
-            wines = data;
-            initializeSearch(wines);
-        })
-        .catch(error => console.error('Fetching error:', error));
-
-    function initializeSearch(wines) {
-        const fuseOptions = {
-        keys: ['name'],
-        includeScore: true,
-        threshold: 0.2,  // Adjusted threshold to be more strict
-        location: 0,
-        distance: 100,
-        minMatchCharLength: 3,  // Minimum number of characters that should match
-        limit: 5  // Limit results to the best 5 matches.
-        };
-
-        
-        const fuse = new Fuse(wines, fuseOptions);
-
-        document.getElementById('searchForm').addEventListener('submit', function (event) {
-            event.preventDefault(); 
+            event.preventDefault();
             search();
         });
 
@@ -88,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const results = fuse.search(query);
+            const results = fuse.search(query).sort((a, b) => b.score - a.score); // Sorting by score
 
             if (results.length === 0) {
                 resultsDiv.innerHTML = "<p>No results found.</p>";
@@ -103,4 +62,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-
