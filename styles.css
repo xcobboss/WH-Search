@@ -6,6 +6,16 @@ body {
     color: #333;
 }
 
+p {
+    font-family: fangsong ;
+    font-weight: bold;
+}
+em {
+    color: #9b3236;  /* Changing the color of the text within the <em> tag */
+    font-style: italic;  /* Ensuring the text is italicized (this is default for <em>, but included for clarity) */
+    font-size: 12px;  /* Making the text bold */
+}
+
 .container {
     max-width: 600px;
     margin: auto;
