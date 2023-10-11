@@ -10,7 +10,7 @@ fetch('wines.json')
     })
     .then(data => {
         wines = data;
-        console.log('Wines data loaded:', wines); // Debug: check loaded data
+        console.log('Wines data loaded:', wines); 
     })
     .catch(error => {
         console.error('Fetching error:', error);
@@ -27,14 +27,14 @@ function search() {
     }
 
     const results = searchWines(query);
-    console.log('Search results:', results); // Debug: check search results
+    console.log('Search results:', results); 
     
     if (results.length === 0) {
         resultsDiv.innerHTML = "<p>No results found.</p>";
         return;
     }
     
-    results.forEach(({item}) => { // Note that Fuse.js uses "item" to refer to the matched object
+    results.forEach(({item}) => { 
         const resultDiv = document.createElement('div');
         resultDiv.innerHTML = `<p>${item.name}</p>`;
         resultsDiv.appendChild(resultDiv);
@@ -44,7 +44,9 @@ function search() {
 function searchWines(query) {
     // Fuse.js options
     const options = {
-        threshold: 0.4, 
+        threshold: 0.4,  // Tweak the threshold to optimize results.
+        location: 0,
+        distance: 100,
         keys: ['name']
     };
     
