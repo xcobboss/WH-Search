@@ -26,6 +26,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+document.querySelector('.mobile-search-icon').addEventListener('click', function() {
+    document.getElementById('searchForm').submit();
+});
+
+
 function search() {
     const query = document.getElementById('searchInput').value.toLowerCase();
     const resultsDiv = document.getElementById('results');
