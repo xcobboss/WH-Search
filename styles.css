@@ -3,7 +3,7 @@ body {
     background-color: #f8f8f8;
     margin: 0;
     padding: 0;
-    color: #333; /* Text Color */
+    color: #333;
 }
 
 .container {
@@ -11,8 +11,8 @@ body {
     margin: auto;
     background-color: #fff;
     padding: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle Box Shadow */
-    border-radius: 8px; /* Rounded Corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
 
 #logo {
@@ -20,16 +20,6 @@ body {
     height: auto;  
     display: block;  
     margin: 0 auto 20px auto;  
-}
-
-h1 {
-    text-align: center;
-    color: #9b3236; /* Adding color to the heading */
-    margin-bottom: 10px; /* Little bit of spacing */
-}
-
-h2 {
-    font-size: 14px;
 }
 
 form {
@@ -40,43 +30,16 @@ input[type="text"] {
     width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 10px;
-    border-radius: 4px; /* Rounded Corners */
-    border: 1px solid #ccc; /* Subtle Border */
+    border-radius: 4px;
+    border: 1px solid #ccc;
 }
 
-input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #9b3236;
-    color: white;
-    border: none;
-    border-radius: 4px; /* Rounded Corners */
-    cursor: pointer; /* Clickable cursor */
-    transition: background-color 0.3s ease; /* Smooth transition */
+.search-bar {
+    position: relative;
 }
-
-input[type="submit"]:hover,
-input[type="submit"]:focus {
-    background-color: #88292d;
-}
-
-.wine {
-    margin-bottom: 20px;
-    padding: 10px; /* Padding around wine details */
-    background-color: #f9f9f9; /* Subtle background */
-    border-radius: 4px; /* Rounded Corners */
-}
-
-.match-type {
-    font-style: italic;
-    color: #888;
-    font-size: 12px;
-}
-
-/* Existing Styles Remain Unchanged */
 
 /* Button Styling */
-input[type="submit"] {
+button {
     width: 100%;
     padding: 12px;
     background-color: #9b3236;
@@ -85,21 +48,97 @@ input[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 16px; /* Larger Text */
+    font-size: 16px;
+    display: none; /* Hide initially */
+}
+
+.text {
+    display: inline-block;
 }
 
 /* Button Hover and Active States */
-input[type="submit"]:hover,
-input[type="submit"]:focus {
-    background-color: #7d292c; /* Darker Shade for Hover/Focus */
+button:hover,
+button:focus {
+    background-color: #7d292c;
 }
 
-input[type="submit"]:active {
-    transform: scale(0.98); /* Subtle "Press" Effect */
+button:active {
+    transform: scale(0.98);
 }
 
-/* Results Styling */
 .wine {
     margin-bottom: 25px;
     padding: 15px; 
-    background-color:
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+
+.match-type {
+    font-style: italic;
+    color: #888;
+    font-size: 12px;
+}
+
+.desktop-search-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #9b3236;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 16px;
+    display: none; /* Hide initially */
+}
+
+.mobile-search-icon {
+    color: #9b3236;
+    cursor: pointer;
+    display: none; /* Hide initially */
+    font-size: 24px; /* Adjust icon size */
+    margin-left: 10px; /* Space between input and icon */
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+@media (min-width: 601px) {
+    .desktop-search-button {
+        display: inline-block; /* Show button on desktop */
+    }
+    .mobile-search-icon {
+        display: none !important;
+    }
+}
+
+@media (max-width: 600px) {
+	.mobile-search-icon {
+        display: inline-block; /* Show icon on mobile */
+        font-size: 20px;
+        top: 40%;
+    }
+	
+    form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    button {
+        width: 100%;
+		padding: 12px;  /* Increase padding for better touch interaction */
+        margin: 5px;  /* A bit of margin on all sides */
+    }
+	
+	.text {
+        display: none;
+    }
+	
+	input[type="text"] {
+        width: calc(100% - 55px); /* 100% - (icon size + margin-left) */
+        display: inline-block;
+    }
+}
+
+
