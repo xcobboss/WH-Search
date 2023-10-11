@@ -1,6 +1,5 @@
 let wines = [];
 
-// Fetch wines from JSON file
 fetch('wines.json')
     .then(response => {
         if (!response.ok) {
@@ -10,7 +9,6 @@ fetch('wines.json')
     })
     .then(data => {
         wines = data;
-        console.log('Wines data loaded:', wines); // Debug: check loaded data
     })
     .catch(error => {
         console.error('Fetching error:', error);
@@ -27,7 +25,6 @@ function search() {
     }
 
     const results = searchWines(query);
-    console.log('Search results:', results); // Debug: check search results
     
     if (results.length === 0) {
         resultsDiv.innerHTML = "<p>No results found.</p>";
@@ -52,7 +49,9 @@ function searchWines(query) {
             const wineTokens = wine.name.toLowerCase().split(/\s+/);
             if (queryTokens.every(token => wineTokens.includes(token))) {
                 results.push({wine, matchType: 'token match'});
-            } else if (queryTokens.some(token => wine.name.toLowerCase().includes(token) && !/^\d+$/.test(token))) {
+            } else if (queryTokens.some(token => 
+                       wine.name.toLowerCase().split(/\W+/).includes(token) && 
+                       !/^\d+$/.test(token))) {
                 results.push({wine, matchType: 'partial match'});
             }
         }
