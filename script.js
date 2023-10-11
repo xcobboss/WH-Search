@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             threshold: 0.2, 
             location: 0,
             distance: 100,
-            minMatchCharLength: 3,
+            minMatchCharLength: 4,
             limit: 5 
         };
 
