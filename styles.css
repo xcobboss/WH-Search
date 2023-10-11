@@ -11,9 +11,9 @@ p {
     font-weight: bold;
 }
 em {
-    color: #9b3236;  /* Changing the color of the text within the <em> tag */
-    font-style: italic;  /* Ensuring the text is italicized (this is default for <em>, but included for clarity) */
-    font-size: 12px;  /* Making the text bold */
+    color: #9b3236; 
+    font-style: italic; 
+    font-size: 12px;  
 }
 
 .container {
@@ -59,14 +59,13 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 16px;
-    display: none; /* Hide initially */
+    display: none; 
 }
 
 .text {
     display: inline-block;
 }
 
-/* Button Hover and Active States */
 button:hover,
 button:focus {
     background-color: #7d292c;
@@ -99,15 +98,15 @@ button:active {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
     font-size: 16px;
-    display: none; /* Hide initially */
+    display: none; 
 }
 
 .mobile-search-icon {
     color: #9b3236;
     cursor: pointer;
-    display: none; /* Hide initially */
-    font-size: 24px; /* Adjust icon size */
-    margin-left: 10px; /* Space between input and icon */
+    display: none;
+    font-size: 24px; 
+    margin-left: 10px; 
     position: absolute;
     right: 0;
     top: 50%;
@@ -116,7 +115,7 @@ button:active {
 
 @media (min-width: 601px) {
     .desktop-search-button {
-        display: inline-block; /* Show button on desktop */
+        display: inline-block; 
     }
     .mobile-search-icon {
         display: none !important;
@@ -125,7 +124,7 @@ button:active {
 
 @media (max-width: 600px) {
 	.mobile-search-icon {
-        display: inline-block; /* Show icon on mobile */
+        display: inline-block; 
         font-size: 20px;
         top: 40%;
     }
@@ -137,8 +136,8 @@ button:active {
 
     button {
         width: 100%;
-		padding: 12px;  /* Increase padding for better touch interaction */
-        margin: 5px;  /* A bit of margin on all sides */
+		padding: 12px;  
+        margin: 5px;  
     }
 	
 	.text {
@@ -146,7 +145,7 @@ button:active {
     }
 	
 	input[type="text"] {
-        width: calc(100% - 55px); /* 100% - (icon size + margin-left) */
+        width: calc(100% - 55px);
         display: inline-block;
     }
 }
