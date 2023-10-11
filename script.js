@@ -10,7 +10,7 @@ fetch('wines.json')
     })
     .then(data => {
         wines = data;
-        console.log('Wines data loaded:', wines); 
+        console.log('Wines data loaded:', wines); // Debug: check loaded data
     })
     .catch(error => {
         console.error('Fetching error:', error);
@@ -27,29 +27,55 @@ function search() {
     }
 
     const results = searchWines(query);
-    console.log('Search results:', results); 
+    console.log('Search results:', results); // Debug: check search results
     
     if (results.length === 0) {
         resultsDiv.innerHTML = "<p>No results found.</p>";
         return;
     }
     
-    results.forEach(({item}) => { 
+    results.forEach(({item, score}) => {
         const resultDiv = document.createElement('div');
-        resultDiv.innerHTML = `<p>${item.name}</p>`;
+        resultDiv.innerHTML = `<p>${item.name} (Score: ${score.toFixed(2)})</p>`;
         resultsDiv.appendChild(resultDiv);
     });
 }
 
 function searchWines(query) {
-    const options = {
-        threshold: 0.2,  // Adjusted down from 0.4 to require a closer match.
-        distance: 50,  // Lowered from 100, making matches need to be closer to the query string.
-        location: 0,  
+    const exactMatches = [];
+    const tokenMatches = [];
+    const fuzzyOptions = {
+        includeScore: true,
+        threshold: 0.4, 
+        distance: 100, 
         keys: ['name']
     };
+    const fuse = new Fuse(wines, fuzzyOptions);
+
+    // 1. Exact match
+    wines.forEach(wine => {
+        if(wine.name.toLowerCase().includes(query)) {
+            exactMatches.push({ item: wine, score: 0 });
+        }
+    });
+
+    if (exactMatches.length > 0) {
+        return exactMatches;
+    }
     
-    const fuse = new Fuse(wines, options);
+    // 2. Tokenized search
+    const queryTokens = query.split(/\s+/);
+    wines.forEach(wine => {
+        const wineTokens = wine.name.toLowerCase().split(/\s+/);
+        if(queryTokens.some(token => wineTokens.includes(token))) {
+            tokenMatches.push({ item: wine, score: 0.2 });
+        }
+    });
+
+    if (tokenMatches.length > 0) {
+        return tokenMatches;
+    }
     
+    // 3. Fuzzy search
     return fuse.search(query);
 }
