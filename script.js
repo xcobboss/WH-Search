@@ -25,10 +25,19 @@ function search() {
         return;
     }
     
-    results.forEach(({wine, matchType}) => {
-        const resultDiv = document.createElement('div');
-        resultDiv.innerHTML = `<p>${wine.name} <em>(${matchType})</em></p>`;
-        resultsDiv.appendChild(resultDiv);
+    results.forEach(({ item, score }) => { 
+    const resultDiv = document.createElement('div');
+    resultDiv.className = 'wine'; // Add a class to style the div
+    
+    let matchType = 'Exact match'; // Default to exact match
+    if (score > 0.05) matchType = 'Partial match';
+    if (score > 0.2) matchType = 'Loose match';
+
+    resultDiv.innerHTML = `
+        <p>${item.name}</p>
+        <p class="match-type">${matchType} (score: ${score.toFixed(2)})</p>
+    `;
+    resultsDiv.appendChild(resultDiv);
     });
 }
 
