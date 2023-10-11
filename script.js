@@ -74,17 +74,13 @@ function searchWines(query) {
     });
 
     // Fuzzy Match using Jaro-Winkler similarity
-    wines.forEach(wine => {
-        const wineLower = wine.name.toLowerCase();
-
-        const similarity = stringSimilarity.compareTwoStrings(query, wineLower);
-        if (similarity > 0.8) {  // Adjust similarity threshold as needed
-            if (!results.find(result => result.wine.name === wine.name)) {
-                results.push({wine, matchType: 'fuzzy match'});
-            }
+wines.forEach(wine => {
+    const wineLower = wine.name.toLowerCase();
+    const similarity = stringSimilarity.compareTwoStrings(query, wineLower);
+    if (similarity > 0.5) {  // Lowering the threshold to increase match leniency
+        if (!results.find(result => result.wine.name === wine.name)) {
+            results.push({wine, matchType: 'fuzzy match'});
         }
-    });
-
-    return results;
-}
+    }
+});
 
