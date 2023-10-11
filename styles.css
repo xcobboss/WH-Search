@@ -1,52 +1,105 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #f8f8f8;
     margin: 0;
     padding: 0;
+    color: #333; /* Text Color */
 }
+
 .container {
     max-width: 600px;
     margin: auto;
     background-color: #fff;
     padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle Box Shadow */
+    border-radius: 8px; /* Rounded Corners */
 }
 
 #logo {
-    max-width: 50%;  /* Ensures the logo is not too wide for its container */
-    height: auto;  /* Maintains aspect ratio */
-    display: block;  /* Allows margin auto to center the logo */
-    margin: 0 auto 20px auto;  /* Adds margin to the bottom of the logo and centers it */
+    max-width: 60%;  
+    height: auto;  
+    display: block;  
+    margin: 0 auto 20px auto;  
 }
 
 h1 {
     text-align: center;
+    color: #9b3236; /* Adding color to the heading */
+    margin-bottom: 10px; /* Little bit of spacing */
 }
+
 h2 {
     font-size: 14px;
 }
+
 form {
     margin-bottom: 20px;
 }
+
 input[type="text"] {
     width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 10px;
+    border-radius: 4px; /* Rounded Corners */
+    border: 1px solid #ccc; /* Subtle Border */
 }
+
 input[type="submit"] {
     width: 100%;
     padding: 10px;
     background-color: #9b3236;
     color: white;
     border: none;
+    border-radius: 4px; /* Rounded Corners */
+    cursor: pointer; /* Clickable cursor */
+    transition: background-color 0.3s ease; /* Smooth transition */
 }
-input[type="submit"]:hover {
+
+input[type="submit"]:hover,
+input[type="submit"]:focus {
     background-color: #88292d;
 }
+
 .wine {
     margin-bottom: 20px;
+    padding: 10px; /* Padding around wine details */
+    background-color: #f9f9f9; /* Subtle background */
+    border-radius: 4px; /* Rounded Corners */
 }
+
 .match-type {
     font-style: italic;
     color: #888;
-    font-size: 12px;  /* Updated font size for better readability */
+    font-size: 12px;
 }
+
+/* Existing Styles Remain Unchanged */
+
+/* Button Styling */
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #9b3236;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 16px; /* Larger Text */
+}
+
+/* Button Hover and Active States */
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+    background-color: #7d292c; /* Darker Shade for Hover/Focus */
+}
+
+input[type="submit"]:active {
+    transform: scale(0.98); /* Subtle "Press" Effect */
+}
+
+/* Results Styling */
+.wine {
+    margin-bottom: 25px;
+    padding: 15px; 
+    background-color:
