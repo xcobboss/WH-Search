@@ -28,12 +28,15 @@ let fuse;
 
 function initializeFuse(winesData) {
     const fuseOptions = {
-        keys: ['name'], 
-        threshold: 0.4, // Adjust as per requirement
-        includeScore: true 
+        keys: ['name'],
+        includeScore: true,
+        threshold: 0.3,  // Lower means stricter matching. Adjust as needed.
+        location: 0,  // Indicates approximately where in the text the pattern is expected to be found
+        distance: 100  // Determines how close the match must be to the fuzzy location. Higher means farther.
     };
     fuse = new Fuse(winesData, fuseOptions);
 }
+
 
 function search() {
     const query = document.getElementById('searchInput').value.toLowerCase();
