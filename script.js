@@ -14,11 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const fuseOptions = {
             keys: ['name'],
             includeScore: true,
-            threshold: 0.3,  // Adjust the threshold value according to your requirement
-            ignoreLocation: true,
-            isCaseSensitive: false,
+            threshold: 0.5,
+            location: 0,
+            distance: 100,
+            limit: 5  // Limit results to the best 5 matches.
         };
-
+        
         const fuse = new Fuse(wines, fuseOptions);
 
         document.getElementById('searchForm').addEventListener('submit', function (event) {
