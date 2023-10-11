@@ -19,12 +19,12 @@ const fuseOptions = {
         { name: 'name', weight: 0.3 }
     ],
     includeScore: true,
-    threshold: 0.4, 
-    location: 0,
-    distance: 100,
+    threshold: 0.3, // Try making it slightly stricter
+    location: 0, // Start at the beginning of the string
+    distance: 20, // Look for matches in the first 50 characters
     minMatchCharLength: 3, 
     shouldSort: true,
-    findAllMatches: true, 
+    findAllMatches: true,
     includeMatches: true
 };
 
