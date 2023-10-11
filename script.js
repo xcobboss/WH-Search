@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const fuseOptions = {
             keys: ['name'],
             includeScore: true,
-            threshold: 0.5,
+            threshold: 0.2,
             location: 0,
             distance: 100,
             limit: 5  // Limit results to the best 5 matches.
