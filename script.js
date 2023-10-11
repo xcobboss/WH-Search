@@ -14,17 +14,21 @@ let fuse;  // Declare fuse variable globally
 // Initialize Fuse with wines data
 function initializeFuse() {
     const fuseOptions = {
-        keys: ['name'],
+        keys: [
+            {name: 'name', weight: 0.7}, // Weight: 0.7 for name
+            {name: 'name', weight: 0.3, threshold: 0.2} // Weight: 0.3 for strict matching in name
+        ],
         includeScore: true,
-        threshold: 0.3, // Adjust the threshold to control fuzziness
+        threshold: 0.6, // General threshold
         location: 0,
         distance: 100,
         minMatchCharLength: 1,
-        includeMatches: true  // This will include the matches in the result, which can be helpful for highlighting
+        includeMatches: true
     };
 
     fuse = new Fuse(wines, fuseOptions);
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('searchForm').addEventListener('submit', function(event) {
