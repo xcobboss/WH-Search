@@ -22,10 +22,12 @@ document.getElementById('searchInput').addEventListener('input', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.mobile-search-icon').addEventListener('click', function(event) {
-        event.preventDefault();  // Prevent any default actions
-        search();  // Directly call your search function
+        console.log("Icon Clicked");  // Debugging line
+        event.preventDefault();
+        search();
     });
 });
+
 
 
 function search() {
