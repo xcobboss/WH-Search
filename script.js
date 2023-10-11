@@ -81,7 +81,7 @@ function searchWines(query) {
         
         // Using String Similarity - Simplistic approach for JS
         const similarity = getSimilarity(query, wineLower);
-        if (similarity > 0.6) {  // Adjust similarity threshold as needed
+        if (similarity > 0.4) {  // Adjust similarity threshold as needed
             if (!results.find(result => result.wine.name === wine.name)) {
                 results.push({wine, matchType: 'fuzzy match'});
             }
