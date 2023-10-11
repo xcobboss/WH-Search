@@ -10,8 +10,8 @@ fetch('wines.json')
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('searchForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevents the default form submission
-        search();  // Your function that performs the search
+        event.preventDefault();
+        search(); 
     });
 });
 
@@ -22,13 +22,11 @@ document.getElementById('searchInput').addEventListener('input', function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.mobile-search-icon').addEventListener('click', function(event) {
-        console.log("Icon Clicked");  // Debugging line
+        console.log("Icon Clicked"); 
         event.preventDefault();
         search();
     });
 });
-
-
 
 function search() {
     const query = document.getElementById('searchInput').value.toLowerCase();
@@ -83,7 +81,7 @@ function searchWines(query) {
     wines.forEach(wine => {
         const wineLower = wine.name.toLowerCase();
         
-        // Using String Similarity - Simplistic approach for JS
+        // String Similarity - Simplistic approach for JS
         const similarity = getSimilarity(query, wineLower);
         if (similarity > 0.1) {  // Adjust similarity threshold as needed
             if (!results.find(result => result.wine.name === wine.name)) {
@@ -112,5 +110,5 @@ function getSimilarity(str1, str2) {
 
 // A function to get string edit distance using Levenshtein Distance Algorithm
 function getEditDistance(a, b) {
-    //... implementation here ...
+   
 }
