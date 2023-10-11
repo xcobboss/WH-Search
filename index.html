@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wine Search</title>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6/dist/fuse.basic.min.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <input type="text" id="searchInput" placeholder="Search wine...">
     <button type="button" onclick="search()">Search</button>
     <div id="results"></div>
-
-    <script src="script.js"></script>
+    <input type="text" id="searchInput" placeholder="Search...">
+    <button onclick="search()">Search</button>
+    <div id="results"></div>
 </body>
 </html>
